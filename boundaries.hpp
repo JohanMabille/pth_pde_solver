@@ -6,7 +6,7 @@
 namespace dauphine
 {
 	Class Boundary{
-	
+	//s
 	public:
 		Boundary(double spot, double N, double strike, double dx, double r, double t);
 	   	~Boundary()

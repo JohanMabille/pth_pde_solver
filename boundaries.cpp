@@ -3,6 +3,7 @@
 
 namespace dauphine
 {
+    //
 	Boundaries::Boundaries(double spot, double N, double strike, double dx, double r, double t)
 	{
         up_bd=initialisation::exp(-t*r)*payoff(exp(log(spot)-(N/2)*dx),strike);
