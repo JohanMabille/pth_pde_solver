@@ -4,23 +4,24 @@ using namespace std;
 #include <vector>
 #include <math.h>
 #include "solver_tridiag.hpp"
+#include "option.hpp"
 
 // maturity in years
 
-    std::vector<double> solver_price(double T, double N, double theta, double sigma,  double r, double dt, double dx,double up_bd, double down_bd)  // add payoff
+    std::vector<double> solver_price(option option, std::vector<double> Spots, double T, double N, double theta, std::vector<double> sigma, std::vector<double> r, double dt, double dx) //
     {
-        
-        std::vector<double> f = init_vectors::vector_f(N,theta,dt,sigma,dx,r) ;
+        std::vector<double> f = init_vectors::vector_f(option,N) ;
         f[0] = up_bd  ;      // conditions aux bornes
         f[N-1]=down_bd  ;
         
         //loop that goes backward, from maturity to today
         for(int i=(T-1); i>=0; i--){
-            
-            double alpha = variables::alpha(theta,dt,sigma,dx,r)  ;   // alpha(theta-1)
-            double beta = variables::beta(theta,dt,sigma,dx,r)  ;   // beta(theta-1)
-            double omega = variables::omega(theta,dt,sigma,dx,r) ;     // omega(theta-1)
-           
+            double rate = r[i]  ;
+            double vol = sigma[i]  ;
+            double alpha = variables::alpha(theta-1,dt,vol,dx,rate)  ;   // alpha(theta-1)
+            double beta = variables::beta(theta-1,dt,vol,dx,rate)  ;   // beta(theta-1)
+            double omega = variables::omega(theta-1,dt,vol,dx,rate) ;     // omega(theta-1)
+
             //We build the right member of the equation --> M(theta-1)*Fn
             std::vector<double> d(N)  ;
             d[0] = beta*f[0]+omega*f[1]    ;
@@ -28,9 +29,9 @@ using namespace std;
              for(int j=1; i<N-1; i++){
                  d[j] = alpha*f[j-1]+beta*f[j]+omega*f[j+1]   ;
              }
-            std::vector<double> a = init_vectors::vector_a(N,theta,dt,sigma,dx,r) ; //vector under the diagonal
-            std::vector<double> b = init_vectors::vector_b(N,theta,dt,sigma,dx,r) ; // diagonal vector
-            std::vector<double> c = init_vectors::vector_c(N,theta,dt,sigma,dx,r) ; //vector above the diagonal
+            std::vector<double> a = init_vectors::vector_a(N,theta,dt,vol,dx,rate) ; //vector under the diagonal
+            std::vector<double> b = init_vectors::vector_b(N,theta,dt,vol,dx,rate) ; // diagonal vector
+            std::vector<double> c = init_vectors::vector_c(N,theta,dt,vol,dx,rate) ; //vector above the diagonal
             
             std::vector<double> x = solvers::solver_trid(a,b,c,d) ;    // we resolve using the tridiagonal solver
             
@@ -48,17 +49,11 @@ using namespace std;
 namespace init_vectors
 {
     ////// vector of payoff at maturity /////////
-    std::vector<double> vector_f(double spot, double N, double strike, double dx)
+    std::vector<double> vector_f(option option, double N, std::vector<double> Spots)
     {
-        //we create a vector of spots
-        std::vector<double> Spots(N)  ;
-        for(int i=0; i<N; i++){
-            Spots[i] = log(spot)-(N/2)*dx+i*dx  ;
-        }
     std::vector<double> f(N)  ; 
-        
         for(int i=1; i<(N-1); i++){
-            f[i]=initialisation::payoff(Spots[i],strike)  ;   // ne marche pas
+            f[i]= option.get_payoff(Spots[i])  ;
         }
        return f   ;
     }
@@ -90,24 +85,25 @@ namespace init_vectors
         return c  ;
     }
 }
-    
+
+
 namespace variables
 {
     double alpha(double theta, double dt, double sigma, double dx, double r)
     {
-        double temp = -0.5*theta*dt*(sigma/dx)^2+0.25*theta*dt*(r-sigma^2)/dx   ;
+        double temp = -0.5*theta*dt*pow(sigma/dx,2)+0.25*theta*dt*(r-pow(sigma,2))/dx ;
         return temp  ;
-        }
+    }
     
     double beta(double theta, double dt, double sigma, double dx, double r)
     {
-        double temp = 1+theta*dt*((sigma/dx)^2)+theta*dt*r   ;
+        double temp = 1+theta*dt*pow(sigma/dx,2)+theta*dt*r;
         return temp ;
     }
     
     double omega(double theta, double dt, double sigma, double dx, double r)
     {
-        double temp = 0.5*theta*dt*(-(sigma/dx)^2)+0.25*theta*((sigma^2)-r)/dx ;
+        double temp = 0.5*theta*dt*(-pow(sigma/dx,2))+0.25*theta*(pow(sigma,2)-r)/dx ;
         return temp ;
     }
 }
