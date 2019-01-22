@@ -32,7 +32,5 @@ private:
 };
 
 
-double normal_law(double precision);
-
 
 #endif /* volatility_hpp */

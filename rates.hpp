@@ -1,10 +1,3 @@
-//
-//  rates.hpp
-//  
-//
-//  Created by Hannah Bruck on 2019/1/22.
-//
-
 #ifndef rates_hpp
 #define rates_hpp
 
@@ -42,6 +35,5 @@ public:
 };
 
 
-double normal_law(double precision);
 
 #endif /* rates_hpp */

@@ -113,6 +113,4 @@ void print_solver_price(std::vector<double> x, double N)
 {
         std::cout << "Current option price is (from our solver) is"  << x[N/2] << " euros" << std::endl;
 }
-    
-
 

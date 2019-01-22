@@ -1,11 +1,5 @@
-//
-//  rates.cpp
-//  
-//
-//  Created by Hannah Bruck on 2019/1/22.
-//
-
 #include "rates.hpp"
+#include "normal_law.hpp"
 #include <iostream>
 using namespace std;
 #include <vector>
@@ -42,16 +36,6 @@ cir_rates::cir_rates(double vol, double r, double T, double dt, double kappa, do
         cir_vector[i] = cir_vector[i-1] + kappa*(theta-fmax(cir_vector[i-1],0))*dt + vol*sqrt(fmax(cir_vector[i-1],0))*sqrt(dt)*normal_law(3);
     }
     
-}
-
-double normal_law(double precision)
-{
-    srand(time(NULL));
-    int power = pow(10, precision);
-    double u_1 = (rand() % (power+1)) / precision;
-    srand(time(NULL)+10);
-    double u_2 = (rand() % (power+1)) / precision;
-    return sqrt(-2*log(u_1)) * cos(2*3.14159265359*u_2);
 }
 
 

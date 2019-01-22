@@ -1,16 +1,16 @@
-
 #include <vector>
 #include <math.h>
 #include <string>
 
 
-	class option
+class option
 {
-	public:
-          option (double spot, double N, double strike, double dx, double r, double t)  ;
-          virtual double get_payoff(double S);
+public:
+    option (double K, double T)  ;
+    virtual double get_strike();
+    virtual double get_maturity();
     
-    protected:
+protected:
     double o_maturity;
     double o_strike;
 } ;
@@ -19,13 +19,17 @@
 class vanilla : public option
 {
 public:
-    vanilla(double type, double spot, double N, double strike, double dx, double r, double t);
+    vanilla(std::string type, double K, double T);
     
     double get_payoff (double S);
+    double get_strike();
+    double get_maturity();
 
 private:
-    std::vector<double> v_vol ;
-    std::string v_type ;
+    std::vector<double> v_vol;
+    std::string v_type;
+    double v_strike;
+    double v_maturity;
     
 } ;
 
