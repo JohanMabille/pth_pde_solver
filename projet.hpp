@@ -23,3 +23,8 @@ namespace variables
     double beta(double theta, double dt, double sigma, double dx, double r) ;
     double omega(double theta, double dt, double sigma, double dx, double r) ;
 }
+
+
+
+
+
