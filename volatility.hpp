@@ -17,7 +17,6 @@ class bs_vol : public volatility
 {
 public:
     bs_vol(double vol, double T);
-    
 private :
     std::vector<double> vol_vector ;
 };
@@ -25,15 +24,15 @@ private :
 
 class heston_vol : public volatility
 {
+public:
+    heston_vol(double vol, double T, double dt, double kappa, double theta);
 private:
     double kappa;
     double theta;
-    
-public:
-    heston_vol(double vol, double T, double dt, double kappa, double theta);
 };
 
 
+double normal_law(double precision);
 
 
 #endif /* volatility_hpp */
