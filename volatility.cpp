@@ -13,7 +13,6 @@ volatility::volatility(std::string name)
 bs_vol::bs_vol(double vol, double T)
 :volatility("Black-Scholes")
 {
-    std::vector<double> vol_vector;
     for(int i=0; i<T-1; i++)
     {
         vol_vector[i] = vol;
@@ -23,7 +22,6 @@ bs_vol::bs_vol(double vol, double T)
 heston_vol::heston_vol(double vol, double T, double dt, double kappa, double theta)
 :volatility("Heston")
 {
-    std::vector<double> vol_vector;
     vol_vector[0] = vol;
     for(int i=1; i<T-1; i++)
     {
