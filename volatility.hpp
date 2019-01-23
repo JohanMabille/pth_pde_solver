@@ -35,4 +35,5 @@ private:
 };
 
 
+
 #endif /* volatility_hpp */

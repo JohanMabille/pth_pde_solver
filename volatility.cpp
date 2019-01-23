@@ -34,3 +34,4 @@ std::vector<double> volatility::get_vector()
     return vol_vector;
 }
 
+
