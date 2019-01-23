@@ -3,9 +3,9 @@
 
 #include <vector>
 
-namespace dauphine
+
+Class Boundary
 {
-	Class Boundary{
 	//s
 	public:
 		Boundary(double spot, double N, double strike, double dx, double r, double t);
@@ -16,7 +16,7 @@ namespace dauphine
                 <double> up_bd;
                 <double> down_bd;
 
-	};	
+};
 
 	/* Class Dirichilet : public Boundary 
 	{
@@ -43,6 +43,4 @@ namespace dauphine
 	}; */
 
 	//Add another derived class to specify the wanted boundary condition
-
-} 
 

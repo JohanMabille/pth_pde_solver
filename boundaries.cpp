@@ -1,24 +1,23 @@
-#include "Boundaries.hpp"
+#include "boundaries.hpp"
 #include <vector>
 
-namespace dauphine
-{
-    //
-	Boundaries::Boundaries(double spot, double N, double strike, double dx, double r, double t)
+
+Boundary::Boundary(double spot, double N, double strike, double dx, double r, double t)
 	{
         up_bd=initialisation::exp(-t*r)*payoff(exp(log(spot)-(N/2)*dx),strike);
-	down_bd=initialisation::exp(-t*r)*payoff(exp(log(spot)+(N/2)*dx),strike);
+        down_bd=initialisation::exp(-t*r)*payoff(exp(log(spot)+(N/2)*dx),strike);
 	}
 
-	Boundaries::~Boundaries() {
-
-	<double>Boundaries::get_up_bd(){
-		return up_bd;
-	}
-	<double>Boundaries::get_down_bd(){
-		return down_bd;
-	}
-
+	Boundary::~Boundary()
+    {
+	<double>Boundary::get_up_bd()
+        {
+            return up_bd;
+        }
+	<double>Boundary::get_down_bd()
+        {
+            return down_bd;
+        }
 	}
 
 	/*
@@ -51,4 +50,4 @@ namespace dauphine
 	}
 
 	} */
-}
+
