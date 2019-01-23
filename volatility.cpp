@@ -15,6 +15,7 @@ bs_vol::bs_vol(double vol, double T)
 {
     for(int i=0; i<T-1; i++)
     {
+        vol_vector.resize(T);
         vol_vector[i] = vol;
     }
 }
@@ -22,6 +23,7 @@ bs_vol::bs_vol(double vol, double T)
 heston_vol::heston_vol(double vol, double T, double dt, double kappa, double theta)
 :volatility("Heston")
 {
+    vol_vector.resize(T);
     vol_vector[0] = vol;
     for(int i=1; i<T-1; i++)
     {

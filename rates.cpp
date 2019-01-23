@@ -20,6 +20,7 @@ bs_rates::bs_rates(double r, double T)
 {
     for(int i=0; i<T; i++)
     {
+        rates_vector.resize(T);
         rates_vector[i] = r;
     }
 }
@@ -27,6 +28,7 @@ bs_rates::bs_rates(double r, double T)
 cir_rates::cir_rates(double vol, double r, double T, double dt, double kappa, double theta)
 :rates("CIR")
 {
+    rates_vector.resize(T);
     rates_vector[0] = r;
     for(int i=1; i<T; i++)
     {

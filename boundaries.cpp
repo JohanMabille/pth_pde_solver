@@ -2,52 +2,33 @@
 #include <vector>
 
 
-Boundary::Boundary(double spot, double N, double strike, double dx, double r, double t)
+boundary::boundary(std::string name)
+:b_name(name)
 	{
-        up_bd=initialisation::exp(-t*r)*payoff(exp(log(spot)-(N/2)*dx),strike);
-        down_bd=initialisation::exp(-t*r)*payoff(exp(log(spot)+(N/2)*dx),strike);
 	}
 
-	Boundary::~Boundary()
+
+
+dirichilet::dirichilet(option option, std::vector<double> spot, double N):boundary("Dirichilet")
+        {
+            up_bd=option.get_payoff(spot[N-1]);
+            down_bd=0;
+        }
+
+neumann::neumann(option option, std::vector<double> spot, double N):boundary("Neumann")
+{
+    // Modifier pour adapter aux conditions aux bornes de Neumann
+    up_bd=option.get_payoff(spot[N-1]);
+    down_bd=0;
+}
+
+
+double boundary::get_up_bd()
     {
-	<double>Boundary::get_up_bd()
-        {
-            return up_bd;
-        }
-	<double>Boundary::get_down_bd()
-        {
-            return down_bd;
-        }
-	}
+        return up_bd;
+    }
 
-	/*
-        Dirichilet::Dirichilet()
-        {
-        }
-
-        Dirichilet::~Dirichilet() {
-
-        <double>Dirichilet::get_up_bd(){
-                return up_bd;
-        }
-        <double>Dirichilet::get_down_bd(){
-                return down_bd;
-        }
-
-        }
-
-
-	Neumann::Neumann()
-	{
-	}
-
-	Neumann::~Neumann(){
-	<double>Neumann:get_up_bd(){
-		return up_bd;
-	}
-	<double>Neumann::get_down_bd(){
-		return down_bd;
-	}
-
-	} */
-
+double boundary::get_down_bd()
+    {
+        return down_bd;
+    }
