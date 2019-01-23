@@ -9,6 +9,7 @@ public:
     option (double K, double T)  ;
     virtual double get_strike();
     virtual double get_maturity();
+    virtual double get_payoff(double S);
     
 protected:
     double o_maturity;
