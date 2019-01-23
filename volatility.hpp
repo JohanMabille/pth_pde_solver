@@ -10,6 +10,10 @@ class volatility
 public:
     volatility(std::string name);
     std::string v_name;
+    std::vector<double> get_vector();
+    
+protected:
+    std::vector<double> vol_vector;
 };
 
 
@@ -17,8 +21,6 @@ class bs_vol : public volatility
 {
 public:
     bs_vol(double vol, double T);
-private :
-    std::vector<double> vol_vector ;
 };
 
 
@@ -26,6 +28,7 @@ class heston_vol : public volatility
 {
 public:
     heston_vol(double vol, double T, double dt, double kappa, double theta);
+    
 private:
     double kappa;
     double theta;
