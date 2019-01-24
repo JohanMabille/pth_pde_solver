@@ -11,6 +11,7 @@ using namespace std;
 
 std::vector<double> solver_price(vanilla option, std::vector<double> Spots, double T, double N, double theta, std::vector<double> sigma, std::vector<double> r, double dt, double dx) //
 {
+    
     std::vector<double> f = init_vectors::vector_f(option, N, Spots);
     f[0] = 0;      // conditions aux bornes
     f[N-1] = option.get_payoff(Spots[N-1]);

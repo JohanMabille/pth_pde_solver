@@ -9,6 +9,7 @@
 namespace initialisation
 {
     
+    
     double dx(double sigma,double maturity,double N)
     {
         return (2.*5.*sigma*sqrt(maturity))/N;
