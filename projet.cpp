@@ -10,6 +10,7 @@ using namespace std;
 
 // maturity in years
 
+
 std::vector<double> solver_price(vanilla option, std::vector<double> Spots, double T, double N, double theta, std::vector<double> sigma, std::vector<double> r, double dt, double dx) //
     {
         std::vector<double> f = init_vectors::vector_f(option, N, Spots);
@@ -32,7 +33,7 @@ std::vector<double> solver_price(vanilla option, std::vector<double> Spots, doub
             std::vector<double> d(N);
             d[0] = beta*f[0]+omega*f[1];
             d[N-1] = alpha*f[N-2]+beta*f[N-1];
-             for(int j=1; i<N-1; i++)
+             for(int j=1; j<N-1; j++)
              {
                  d[j] = alpha*f[j-1]+beta*f[j]+omega*f[j+1];
              }
@@ -50,7 +51,7 @@ std::vector<double> solver_price(vanilla option, std::vector<double> Spots, doub
             {
                 f = x;
                 f[0] = 0;
-                f[N-1] = Spots[N-1]-option.get_strike();
+                f[N-1] = option.get_payoff(Spots[N-1]);
             }
 
         }
@@ -73,7 +74,7 @@ namespace init_vectors
     std::vector<double> vector_a(double N, double theta, double dt, double sigma, double dx, double r)  //vector under the diagonal
     {
         std::vector<double> a(N-1);
-        for(int i=0; i<(N-2); i++)
+        for(int i=0; i<(N-1); i++)
         {
             a[i]=variables::alpha( theta,dt,sigma,dx,r);
         }
@@ -93,7 +94,7 @@ namespace init_vectors
     std::vector<double> vector_c(double N, double theta, double dt, double sigma, double dx, double r)   // vector above the diagonal
     {
         std::vector<double> c(N-1);
-        for(int i=0; i<(N-2); i++)
+        for(int i=0; i<(N-1); i++)
         {
             c[i]=variables::omega(theta,dt,sigma,dx,r);
         }
@@ -106,19 +107,19 @@ namespace variables
 {
     double alpha(double theta, double dt, double sigma, double dx, double r)
     {
-        double temp = -0.5*theta*dt*pow(sigma/dx,2)+0.25*theta*dt*(r-pow(sigma,2))/dx;
+        double temp = -0.5*theta*dt*pow(sigma/dx,2.)+0.25*theta*dt*(r-pow(sigma,2.))/dx;
         return temp;
     }
     
     double beta(double theta, double dt, double sigma, double dx, double r)
     {
-        double temp = 1 + theta*dt*pow(sigma/dx,2) + theta*dt*r;
+        double temp = 1. + theta*dt*pow(sigma/dx,2.) + theta*dt*r;
         return temp;
     }
     
     double omega(double theta, double dt, double sigma, double dx, double r)
     {
-        double temp = 0.5*theta*dt*(-pow(sigma/dx,2)) + 0.25*theta*(pow(sigma,2)-r)/dx;
+        double temp = 0.5*theta*dt*(-pow(sigma/dx,2.)) + 0.25*theta*(pow(sigma,2.)-r)/dx;
         return temp;
     }
 }
