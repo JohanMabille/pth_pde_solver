@@ -1,3 +1,4 @@
+#include "boundaries.hpp"
 #include "option.hpp"
 #include "projet.hpp"
 #include "rates.hpp"
@@ -14,8 +15,10 @@ std::vector<double> solver_price(vanilla option, std::vector<double> Spots, doub
 {
     
     std::vector<double> f = init_vectors::vector_f(option, N, Spots);
-    f[0] = 0;      // conditions aux bornes
-    f[N-1] = option.get_payoff(Spots[N-1]);
+    
+    dirichlet chosen_boundaries(option, Spots, N); // conditions aux bornes
+    f[0] = chosen_boundaries.get_down_bd();
+    f[N-1] = chosen_boundaries.get_up_bd();
     
     std::vector<double> x(N);
     
@@ -125,3 +128,4 @@ namespace variables
         return temp;
     }
 }
+
