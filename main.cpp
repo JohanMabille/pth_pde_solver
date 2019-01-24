@@ -39,6 +39,8 @@ int main(int artc, char* argv[])
     string type_vol = "bs_vol";
     string type_rate = "bs_rates";
     
+    
+    
     double spot=100.;
     double strike =100.;
     double maturity=365.0;

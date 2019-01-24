@@ -35,6 +35,8 @@ std::vector<double> solver_price(vanilla option, std::vector<double> Spots, doub
         {
             d[j] = alpha*f[j-1]+beta*f[j]+omega*f[j+1];
         }
+
+
         std::vector<double> a = init_vectors::vector_a(N,theta,dt,vol,dx,rate); //vector under the diagonal
         std::vector<double> b = init_vectors::vector_b(N,theta,dt,vol,dx,rate); // diagonal vector
         std::vector<double> c = init_vectors::vector_c(N,theta,dt,vol,dx,rate); //vector above the diagonal
