@@ -38,3 +38,5 @@ class boundary
 
 	//Add another derived class to specify the wanted boundary condition
 
+
+#endif /* boundaries_hpp */

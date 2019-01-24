@@ -13,9 +13,9 @@ volatility::volatility(std::string name)
 bs_vol::bs_vol(double vol, double T)
 :volatility("Black-Scholes")
 {
+    vol_vector.resize(T);
     for(int i=0; i<T-1; i++)
     {
-        vol_vector.resize(T);
         vol_vector[i] = vol;
     }
 }
