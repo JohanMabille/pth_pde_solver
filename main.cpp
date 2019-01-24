@@ -44,6 +44,7 @@ int main(int artc, char* argv[])
     double spot=100.;
     double strike =100.;
     double maturity=365.0;
+  
     double T=1;
     double volatility = 0.10;
     double r = 0.01;
@@ -64,6 +65,7 @@ int main(int artc, char* argv[])
     std::vector<double> result = solver_price(chosen_option,Spots,maturity,N,theta,vol_vect,rates_vect,dt,dx);
     
     std::cout << "Current option price (from our solver) is "  << result[N/2] << " euros" << std::endl;
+
     
 }
 

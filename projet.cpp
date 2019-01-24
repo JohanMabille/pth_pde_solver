@@ -9,6 +9,7 @@ using namespace std;
 #include <math.h>
 
 
+
 std::vector<double> solver_price(vanilla option, std::vector<double> Spots, double T, double N, double theta, std::vector<double> sigma, std::vector<double> r, double dt, double dx) //
 {
     
@@ -27,6 +28,7 @@ std::vector<double> solver_price(vanilla option, std::vector<double> Spots, doub
         double beta = variables::beta(theta-1,dt,vol,dx,rate);   // beta(theta-1)
         double omega = variables::omega(theta-1,dt,vol,dx,rate);     // omega(theta-1)
         
+
         //We build the right member of the equation --> M(theta-1)*Fn
         std::vector<double> d(N);
         d[0] = beta*f[0]+omega*f[1];
@@ -35,7 +37,6 @@ std::vector<double> solver_price(vanilla option, std::vector<double> Spots, doub
         {
             d[j] = alpha*f[j-1]+beta*f[j]+omega*f[j+1];
         }
-
 
         std::vector<double> a = init_vectors::vector_a(N,theta,dt,vol,dx,rate); //vector under the diagonal
         std::vector<double> b = init_vectors::vector_b(N,theta,dt,vol,dx,rate); // diagonal vector
@@ -108,6 +109,7 @@ namespace variables
     double alpha(double theta, double dt, double sigma, double dx, double r)
     {
         double temp = -0.5*theta*dt*pow(sigma/dx,2.) + 0.25*theta*dt*(r-pow(sigma,2.))/dx;
+
         return temp;
     }
     
