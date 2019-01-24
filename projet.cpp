@@ -20,6 +20,7 @@ std::vector<double> solver_price(vanilla option, std::vector<double> Spots, doub
     
         std::vector<double> x(N);
         
+        
         //loop that goes backward, from maturity to today
         for(int i=(T-1); i>=0; i--)
         {

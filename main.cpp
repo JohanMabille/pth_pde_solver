@@ -62,7 +62,6 @@ int main(int artc, char* argv[])
 
         bs_vol vol(volatility,maturity) ;
         bs_rates rates(r,maturity)  ;
-   
         vanilla chosen_option("call",strike,maturity) ;
     
       std::vector<double> vol_vect = vol.get_vector()  ;
