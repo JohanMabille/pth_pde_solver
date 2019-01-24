@@ -1,20 +1,23 @@
 #include "projet.hpp"
 #include "solver_tridiag.hpp"
 #include "option.hpp"
-#include "boundaries.hpp"
 #include <iostream>
 using namespace std;
 #include <vector>
+#include "volatility.hpp"
+#include "rates.hpp"
 #include <math.h>
-
 
 // maturity in years
 
-std::vector<double> solver_price(option option, std::vector<double> Spots, double T, double N, double theta, std::vector<double> sigma, std::vector<double> r, double dt, double dx) //
+std::vector<double> solver_price(vanilla option, std::vector<double> Spots, double T, double N, double theta, std::vector<double> sigma, std::vector<double> r, double dt, double dx) //
     {
         std::vector<double> f = init_vectors::vector_f(option, N, Spots);
-        f[0] = up_bd;      // conditions aux bornes
-        f[N-1] = down_bd;
+        f[0] = 0;      // conditions aux bornes
+        f[N-1] = option.get_payoff(Spots[N-1]);
+        
+    
+        std::vector<double> x(N);
         
         //loop that goes backward, from maturity to today
         for(int i=(T-1); i>=0; i--)
@@ -37,7 +40,7 @@ std::vector<double> solver_price(option option, std::vector<double> Spots, doubl
             std::vector<double> b = init_vectors::vector_b(N,theta,dt,vol,dx,rate); // diagonal vector
             std::vector<double> c = init_vectors::vector_c(N,theta,dt,vol,dx,rate); //vector above the diagonal
             
-            std::vector<double> x = solvers::solver_trid(a,b,c,d);    // we resolve using the tridiagonal solver
+             x = solvers::solver_trid(a,b,c,d);    // we resolve using the tridiagonal solver
             
             if (i==0)
             {
@@ -46,17 +49,18 @@ std::vector<double> solver_price(option option, std::vector<double> Spots, doubl
             else
             {
                 f = x;
-                f[0] = up_bd;
-                f[N-1] = down_bd;
+                f[0] = 0;
+                f[N-1] = Spots[N-1]-option.get_strike();
             }
+
         }
-        
+        return x ;
     }
 
 namespace init_vectors
 {
     ////// vector of payoff at maturity /////////
-    std::vector<double> vector_f(option option, double N, std::vector<double> Spots)
+    std::vector<double> vector_f(vanilla option, double N, std::vector<double> Spots)
     {
         std::vector<double> f(N);
         for(int i=1; i<(N-1); i++)
