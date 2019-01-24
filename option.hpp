@@ -1,6 +1,12 @@
 #include <vector>
 #include <math.h>
 #include <string>
+#include <stdio.h>
+#include <vector>
+#include <iostream>
+using namespace std;
+#ifndef option_hpp
+#define option_hpp
 
 
 class option
@@ -22,7 +28,7 @@ class vanilla : public option
 public:
     vanilla(std::string type, double K, double T);
     
-    double get_payoff (double S);
+    virtual double get_payoff (double S);
     double get_strike();
     double get_maturity();
 
@@ -33,6 +39,10 @@ private:
     double v_maturity;
     
 } ;
+
+
+
+#endif /* option_hpp */
 
 
 

@@ -3,6 +3,7 @@
 #include "option.hpp"
 #include <string>
 
+
 option::option (double K, double T)
 :o_maturity(T), o_strike(K)
 {
@@ -26,6 +27,11 @@ double option::get_maturity()
     return o_maturity;
 }
 
+
+double option::get_payoff(double S)
+{
+    return 2 ;
+}
 
 double vanilla::get_payoff(double S)
 {
