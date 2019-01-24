@@ -18,9 +18,10 @@ rates::rates(std::string name)
 bs_rates::bs_rates(double r, double T)
 :rates("Black-Scholes")
 {
+    rates_vector.resize(T);
     for(int i=0; i<T; i++)
     {
-        rates_vector.resize(T);
+        
         rates_vector[i] = r;
     }
 }
