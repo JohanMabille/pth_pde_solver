@@ -49,6 +49,7 @@ int main(int artc, char* argv[])
     double spot=100.;
     double strike =100. ;
     double maturity=365.0;
+    double T=1 ;
     double volatility = 0.10  ;
     double r = 0.01 ;
     double theta = 0.5;
@@ -57,24 +58,18 @@ int main(int artc, char* argv[])
     double kappa = 0.5  ;
     double dt = initialisation::dt(maturity)  ;
     double dx = initialisation::dx(volatility,maturity,N)  ;
-    std::vector<double> Spots  = initialisation::Spots(spot,volatility,maturity,N) ;
+    std::vector<double> Spots  = initialisation::Spots(spot,volatility,T,N) ;
 
         bs_vol vol(volatility,maturity) ;
         bs_rates rates(r,maturity)  ;
-   
         vanilla chosen_option("call",strike,maturity) ;
     
       std::vector<double> vol_vect = vol.get_vector()  ;
       std::vector<double> rates_vect = rates.get_vector()  ;
-      std::cout << "yo" << std::endl;
-   // std::vector<double> result = solver_price(chosen_option,Spots,maturity,N,theta,vol_vect,rates_vect,dt,dx)  ;
-  //  std::cout << result[3] << std::endl;
-
-    double rate = rates_vect[60];
-    double vola = vol_vect[60];
-    double alpha = variables::omega(theta-1.,dt,vola,dx,rate);
-    std::cout << alpha << std::endl;
- 
+    std::vector<double> result = solver_price(chosen_option,Spots,maturity,N,theta,vol_vect,rates_vect,dt,dx)  ;
+    std::cout << result[48] << std::endl;
+    std::cout << Spots[48] << std::endl;
+    
     
 }
 
