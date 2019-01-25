@@ -4,7 +4,7 @@
 #include "rates.hpp"
 #include "solver_tridiag.hpp"
 #include "volatility.hpp"
-
+#include "greeks.hpp"
 #include <iostream>
 using namespace std;
 #include <vector>
@@ -41,6 +41,7 @@ std::vector<double> solver_price(vanilla& option, const std::vector<double>& Spo
         
         if (i==0)
         {
+            option.set_theta(f[round(N/2.)]-x[round(N/2.)]) ; //we put the theta of the option in the attribute theta
             return x;  //we return the vector of option price if we are at the last step
         }
         else
