@@ -9,37 +9,29 @@ class boundary
 {
 	
 public:
-    boundary(std::string name);
-    std::string b_name;
-    double get_up_bd();
-    double get_down_bd();
+    boundary(std::string name) ;
+    std::string b_name ;
+    double get_up_bd() ;
+    double get_down_bd() ;
     
 protected:
-    double up_bd;
-    double down_bd;
+    double up_bd ;
+    double down_bd ;
 };
 
 
 class dirichlet : public boundary
 {
-    
 public:
-    dirichlet(option option, std::vector<double> spot, double N);
-private:
-    // Ajouter input propres à Dirichlet
+    dirichlet(option option, std::vector<double> spot, double N) ;
 };
 
 
 class neumann : public boundary
 {
-    
 public:
     neumann(option option, std::vector<double> spot, double N);
-private:
-    // Ajouter input propres à Neumann
 };
-
-// Add another derived class to specify the wanted boundary condition
 
 
 #endif /* boundaries_hpp */

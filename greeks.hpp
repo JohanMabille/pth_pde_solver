@@ -1,6 +1,10 @@
 #ifndef greeks_hpp
 #define greeks_hpp
 
+using namespace std;
+#include <iostream>
+#include <vector>
+#include <math.h>
 #include <stdio.h>
 
 
