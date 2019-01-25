@@ -15,8 +15,6 @@ vanilla::vanilla (std::string type, double K, double T)
 {
 }
 
-
-
 double option::get_strike()
 {
     return o_strike;
@@ -25,6 +23,38 @@ double option::get_strike()
 double option::get_maturity()
 {
     return o_maturity;
+}
+
+void option::set_delta(const double& delta)
+{
+    o_delta = delta;
+}
+
+double option::get_delta()
+{
+    return o_delta;
+}
+
+void option::set_gamma(const double& gamma)
+{
+    o_gamma = gamma;
+}
+
+double option::get_gamma()
+{
+    return o_gamma;
+}
+
+
+
+void option::set_theta(const double& theta)
+{
+     o_theta = theta;
+}
+
+double option::get_theta()
+{
+    return o_theta;
 }
 
 
