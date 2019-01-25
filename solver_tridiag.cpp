@@ -6,7 +6,7 @@ using namespace std;
 namespace solvers
 {
 
-//using the method described on wikipedia
+//using the method described on wikipedia "https://en.wikipedia.org/wiki/Tridiagonal_matrix_algorithm"
 // solver verified, works
 std::vector<double> solver_trid(std::vector<double>& a, std::vector<double>& b, std::vector<double>& c, std::vector<double>& d)
 {
@@ -15,7 +15,7 @@ std::vector<double> solver_trid(std::vector<double>& a, std::vector<double>& b, 
     
     for(int i=1; i<n; i++){
         
-        double w = a[i-1]/b[i-1];     //erreur sur wikipedia 
+        double w = a[i-1]/b[i-1];
         b[i] -= w*c[i-1];
         d[i] -= w*d[i-1];
     }
