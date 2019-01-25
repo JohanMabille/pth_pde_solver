@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 
-double normal_law(double precision);
+double normal_law(double precision) ;
 
 
 #endif /* normal_law_hpp */
