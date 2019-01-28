@@ -44,6 +44,7 @@ void print_vega(std::vector<double> result, vanilla& option, double volatility,d
     bs_vol vol2(volatility2,maturity) ;
     std::vector<double> vol_vect2 = vol2.get_vector() ;
     std::vector<double> result_tomorrow = solver_price(option,Spots,maturity,N,theta,vol_vect2,rates_vect,dt,dx,chosen_boundaries) ;
+    // Centered finite difference is more accurate
     std::cout << "Vega is  " << get_vega(result,result_tomorrow,N,volatility,volatility2)  << std::endl ;
 }
 
@@ -58,9 +59,13 @@ int main(int artc, char* argv[])
     double maturity=T*365.0 ;         // maturity in days, size of time mesh
     double dt = 1./365. ;
     double volatility = 0.20 ;
-    double r = 0.0000000000000001 ;   // we can't fix r at 0, do not know why
+    //double r = 0.0000000000000001 ;   // we can't fix r at 0, do not know why
+    //double r = 0.00000001;
+    double r = 0.;
     double theta = 0.5 ;
-    double N=1000. ;                 // size of space mesh
+    // It's a size so should be size_t
+    // N should be 1001 so you can center the mesh (with mesh[500] = strike)
+    double N=1001. ;                 // size of space mesh
     
     double theta_stochastic = 0.2 ;   // in case of stochastic vol or rates
     double kappa = 0.5 ;            // in case of stochastic vol or rates
@@ -68,7 +73,8 @@ int main(int artc, char* argv[])
 ///////////////// Initialization dx and vector of Spots //////////////////////////////////////////
     
     double dx = initialisation::dx(volatility,T,N) ;
-    std::vector<double> Spots  = initialisation::Spots(spot,volatility,T,N) ;
+    // Vector of spot should be centerd on strike for accuracy
+    std::vector<double> Spots  = initialisation::Spots(strike,volatility,T,N) ;
     
 ///////////////// Initialization of types of vol, rates + option ////////////////////////////////
     

@@ -1,6 +1,7 @@
 #ifndef normal_law_hpp
 #define normal_law_hpp
 
+// Why ?
 #include <stdio.h>
 
 

@@ -1,3 +1,4 @@
+// Why have you forsaken me? 
 using namespace std;
 #include <vector>
 #include <math.h>
@@ -8,12 +9,18 @@ using namespace std;
 #define option_hpp
 
 
+// Missing entity semantic:
+// - virtual destructor
+// - copy and move constructors / assignment operators deleted
+
 class option
 {
 public:
     option (double K, double T) ;
+    // The getters should be const
     virtual double get_strike() ;
     virtual double get_maturity() ;
+    // A pure virtual method would be better
     virtual double get_payoff(double S) ;
     void  set_delta(const double& delta) ;
     double get_delta() ;
@@ -42,6 +49,7 @@ public:
 private:
     std::vector<double> v_vol ;
     std::string v_type ;
+    // WHy overriding strike and maturity of the base class?
     double v_strike ;
     double v_maturity ;
 } ;

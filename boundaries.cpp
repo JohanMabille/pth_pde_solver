@@ -10,7 +10,10 @@ boundary::boundary(std::string name)
 dirichlet::dirichlet(option option, std::vector<double> spot, double N)
 :boundary("Dirichlet")
 {
+    // up_bd will be 2 after this call because of incomplete copy
+    // of option
     up_bd = option.get_payoff(spot[N-1]) ;
+    // Should be option.get_payoff(spot[0]) ;
     down_bd = 0 ;
 }
 

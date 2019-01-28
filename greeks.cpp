@@ -9,6 +9,7 @@ using namespace std;
 
 double delta  (const std::vector<double>& result,const std::vector<double>& Spots,const double& index)
 {
+    // Centered finite difference would be more accurate
     return  (result[index]-result[index+1])/(Spots[index]-Spots[index+1]) ;
 }
 

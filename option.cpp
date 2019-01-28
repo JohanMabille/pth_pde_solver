@@ -3,6 +3,7 @@
 #include <math.h>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 
 option::option (double K, double T)

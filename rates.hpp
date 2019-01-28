@@ -1,18 +1,23 @@
 #ifndef rates_hpp
 #define rates_hpp
 
+// In your thoughts forsaken me
 using namespace std;
 #include <stdio.h>
 #include <vector>
 #include <iostream>
 
 
+// Missing entity semantic:
+// - virtual destructor
+// - copy and move constructors / assignment operators deleted
 
 class rates
 {
 public:
     rates(std::string name) ;
     std::string r_name ;
+    // Should be const and return a const ref
     std::vector<double> get_vector() ; 
     
 protected:

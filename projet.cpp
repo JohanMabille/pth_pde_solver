@@ -10,6 +10,7 @@ using namespace std;
 #include <iostream>
 #include <vector>
 #include <math.h>
+#include <algorithm>
 
 
 std::vector<double> solver_price(vanilla& option, const std::vector<double>& Spots,const double& T,const double& N,const double& theta,const std::vector<double>& sigma,const std::vector<double>& r, const double& dt,const double& dx,dirichlet& bd) 
@@ -18,6 +19,8 @@ std::vector<double> solver_price(vanilla& option, const std::vector<double>& Spo
     std::vector<double> f = init_vectors::vector_f(option, N, Spots) ; // f(T) is the payoff vector
     
     f[0] = bd.get_down_bd() ;  //we deal with the boundaries
+    // After that call, we get f[N - 1] = 2. instead of the right value
+    // and the error propagates
     f[N-1] = bd.get_up_bd() ;
     
     std::vector<double> x(N) ;
@@ -31,6 +34,9 @@ std::vector<double> solver_price(vanilla& option, const std::vector<double>& Spo
         double beta = variables::beta(theta-1.,dt,vol,dx,rate) ;   // beta(theta-1)
         double omega = variables::omega(theta-1.,dt,vol,dx,rate) ;     // omega(theta-1)
         
+        // It would have been more efficient to initialize the vectors before the loop,
+        // and to pass the vectors as references so they can be filled inside the methods
+        // (this avoids allocating the vectors at each step)
         std::vector<double> d = init_vectors::vector_d(N, alpha, beta, omega, f) ;// right member of the equation --> M(theta-1)*F(n+1), b in the equation Ax=b
         
         std::vector<double> a = init_vectors::vector_a(N,theta,dt,vol,dx,rate) ; //vector under the diagonal
@@ -59,10 +65,9 @@ namespace init_vectors
     std::vector<double> vector_f(vanilla& option, const double& N, const std::vector<double>& Spots)
     {
         std::vector<double> f(N) ;
-        for(int i=1; i<(N-1); i++)
-        {
-            f[i]= option.get_payoff(Spots[i]) ;
-        }
+        // More concise
+        std::transform(Spots.cbegin(), Spots.cend(), f.begin(), [&option](double s) { return option.get_payoff(s); });
+        // Although the best option would be to have get_payoff accepting and returning a vector
         return f ;
     }
     
@@ -121,7 +126,8 @@ namespace variables
     
     double alpha(const double& theta,const double& dt,const double& sigma,const double& dx,const double& r) 
     {
-        double temp = -0.5*theta*dt*pow(sigma/dx,2.) + 0.25*theta*dt*(r-pow(sigma,2.))/dx ;
+        // This is due to a typo in the subject and won't be considered as a mistake
+        double temp = -0.5*theta*dt*pow(sigma / dx, 2.) + 0.5*theta*dt*(r - 0.5 * pow(sigma, 2.)) / dx;
         return temp ;
     }
     
@@ -133,7 +139,8 @@ namespace variables
     
     double omega(const double& theta,const double& dt,const double& sigma,const double& dx,const double& r)
     {
-        double temp = 0.5*theta*dt*(-pow(sigma/dx,2.)) + 0.25*theta*dt*(pow(sigma,2.)-r)/dx ;
+        // This is due to a typo in the subject and won't be considered as a mistake
+        double temp = 0.5*theta*dt*(-pow(sigma/dx,2.)) + 0.5*theta*dt*(0.5 * pow(sigma,2.)-r)/dx ;
         return temp ;
     }
     
